@@ -7,10 +7,10 @@ $(document).ready(function(){
 
 $('.compileButton').on('click',function(){
 var editor = ace.edit("editor");
-if($('.languageSelector').val()==""){
-	alert("Please select a language");
-}
-else if(editor.getValue()=="")
+// if($('.languageSelector').val()==""){
+// 	alert("Please select a language");
+// }
+if(editor.getValue()=="")
 {
 	alert("cannot compile empty source");
 }
@@ -18,7 +18,8 @@ else{
 $("#runResponse").html("");
 $("#runResponse").html("Compiling... Please Wait");
 var testCases=[];
-testCases[0]=$('.customInput').val();
+// testCases[0]=$('.customInput').val();
+testCases[0]='';
 
 
 if(testCases.length==-1){
@@ -27,9 +28,11 @@ if(testCases.length==-1){
 
 	 var config=
 	{
-	source:editor.getValue(), 
-	input:JSON.stringify(testCases),  
-	language:$('.languageSelector').val()};	 
+		source:editor.getValue(), 
+		input:JSON.stringify(testCases),  
+		// language:$('.languageSelector').val()
+		language:2 //2=c++;1=c
+	};	 
 
 
 
@@ -41,6 +44,7 @@ if(testCases.length==-1){
 			dataType:'json',
 		}).done(function(data){
 		data=JSON.parse(data);
+		// console.log(data);
 		var str = (data.result.compilemessage).toString();
 		str=decodeURIComponent(escape(str));
 
