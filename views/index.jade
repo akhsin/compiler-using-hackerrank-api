@@ -10,11 +10,15 @@ head
 			height:100%;
 			}
 	body(style="overflow:hidden")
-		#editor.col-md-8
+		#editor.col-md-8 #{potongan_kode}
 		
 		#result.col-md-4
-			.form-group
-				label
+			#detail_siswa Logged as
+				strong  #{nama}
+			
+			#run #{soal} 
+				#submitButton
+					button.submitButton(class="", data-toggle="modal", data-target="#hintModal") Bantuan
 
 			#compile
 				#compileButton
@@ -27,6 +31,17 @@ head
 			#submit
 
 		
+	.modal.fade#hintModal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button(class="close", type="button", data-dismiss="modal", aria-label="Close")
+						span(aria-hidden="true") &times;
+					h4(class="modal-title")#myModalLabel Hint
+
+				.modal-body !{bantuan}
+				.modal-footer
+					button(type="button",  data-dismiss="modal", class="btn btn-default") Close
 
 		script(src='/src-noconflict/ace.js', type='text/javascript', charset='utf-8')
 		script.

@@ -29,7 +29,7 @@
     "node-hackerrank": "^1.0.6",
     "request": "*",
     "request-promise": "*",
-"serve-favicon":"*"
+    "serve-favicon":"*"
 
   }
 }
