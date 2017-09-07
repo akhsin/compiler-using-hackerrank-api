@@ -18,10 +18,13 @@ head
 			
 			#run #{soal} 
 				#submitButton
+
 					button.submitButton(class="", data-toggle="modal", data-target="#hintModal") Bantuan
 
 			#compile
 				#compileButton
+					input(type="hidden", name="soal_id", value="#{soal_id}")
+					input(type="hidden", name="siswa_id", value="#{siswa_id}")
 					button.compileButton() COMPILE & RUN
 
 			#run

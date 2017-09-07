@@ -28,25 +28,38 @@ router.get('/', function(req, res, next) {
 
 router.post('/compile', function(req, res, next) {
 
-hackerRank.submit({
-	apiKey: 'hackerrank|807508-1658|2aa5b8613b2bc21fea74103960a46e2146eb1efb',
-	source: req.body.source,
-	language: parseInt(req.body.language),
-	testcases: JSON.parse(req.body.input),
-	wait: true,
-	callbackUrl: '',
-	format: 'json',
-	}).exec({
-// An unexpected error occurred.
-	error: function (err) {
-		throw err;
-	},
-// OK.
-	success: function (response) {
- 	console.log(response)
-	 res.json(response);
-	},
-	});
+	hackerRank.submit({
+		apiKey: 'hackerrank|807508-1658|2aa5b8613b2bc21fea74103960a46e2146eb1efb',
+		source: req.body.source,
+		language: parseInt(req.body.language),
+		testcases: JSON.parse(req.body.input),
+		wait: true,
+		callbackUrl: '',
+		format: 'json',
+		}).exec({
+		// An unexpected error occurred.
+			error: function (err) {
+				throw err;
+			},
+		// OK.
+			success: function (response) {
+				//response is a string
+				res.json(response);
+			 	response=JSON.parse(response);
+			 	// console.log(response.result);
+				var jawaban_isbenar=1;
+				if (response.result.message === null) {
+					jawaban_isbenar=0;
+				}
+				var args = {
+					data: {siswa_id:req.body.siswa_id, soal_id:req.body.soal_id, jawaban_siswa:req.body.source, jawaban_benar:jawaban_isbenar},
+					headers: { "Content-Type": "application/json" }
+				};
+				client.post(url_api+"/jawaban", args, function(data, response){
+					console.log(data);
+				});
+			},
+		});
 
 });
 

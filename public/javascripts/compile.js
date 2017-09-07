@@ -6,70 +6,62 @@ $(document).ready(function(){
 
 
 $('.compileButton').on('click',function(){
-var editor = ace.edit("editor");
-// if($('.languageSelector').val()==""){
-// 	alert("Please select a language");
-// }
-if(editor.getValue()=="")
-{
-	alert("cannot compile empty source");
-}
-else{
-$("#runResponse").html("");
-$("#runResponse").html("Compiling... Please Wait");
-var testCases=[];
-// testCases[0]=$('.customInput').val();
-testCases[0]='';
-
-
-if(testCases.length==-1){
-	testCases.push(" ");
-}
-
-	 var config=
-	{
-		source:editor.getValue(), 
-		input:JSON.stringify(testCases),  
-		// language:$('.languageSelector').val()
-		language:2 //2=c++;1=c
-	};	 
-
-
-
-
-	 $.ajax({
-			type:'POST',
-			url:'/compile',
-			data:config,
-			dataType:'json',
-		}).done(function(data){
-		data=JSON.parse(data);
-		// console.log(data);
-		var str = (data.result.compilemessage).toString();
-		str=decodeURIComponent(escape(str));
-
-
-
+	var editor = ace.edit("editor");
+	// if($('.languageSelector').val()==""){
+	// 	alert("Please select a language");
+	// }
+	if(editor.getValue()==""){
+		alert("cannot compile empty source");
+	}else{
 		$("#runResponse").html("");
-		if(str==""){
-			$("#runResponse").html("Compile Message: Compilation Successful <br><br>");
-			$("#runResponse").append("Output: <br>");
-			
-			(data.result.stdout).forEach(function(item,index){
-			$("#runResponse").append(data.result.stdout[index]+"<br>");
-			
-		});
+		$("#runResponse").html("Compiling... Please Wait");
+		var testCases=[];
+		// testCases[0]=$('.customInput').val();
+		testCases[0]='';
+
+
+		if(testCases.length==-1){
+			testCases.push(" ");
 		}
-		else{
-			$("#runResponse").html("Compile Message: "+ str+"<br><br>");
-		}
-		
-		
-	
-		
-		
-		});
-}
+
+			 var config={
+				source:editor.getValue(), 
+				input:JSON.stringify(testCases),  
+				// language:$('.languageSelector').val()
+				language:2, //2=c++;1=c
+				soal_id:$("input[name='soal_id']").val(),
+				siswa_id:$("input[name='siswa_id']").val()
+			};	 
+
+
+
+
+			 $.ajax({
+					type:'POST',
+					url:'/compile',
+					data:config,
+					dataType:'json',
+				}).done(function(data){
+					data=JSON.parse(data);
+					// console.log(data);
+					var str = (data.result.compilemessage).toString();
+					str=decodeURIComponent(escape(str));
+
+					$("#runResponse").html("");
+					if(str==""){
+						$("#runResponse").html("Compile Message: Compilation Successful <br><br>");
+						$("#runResponse").append("Output: <br>");
+						
+						(data.result.stdout).forEach(function(item,index){
+							$("#runResponse").append(data.result.stdout[index]+"<br>");
+						
+						});
+					}else{
+						$("#runResponse").html("Compile Message: "+ str+"<br><br>");
+					}
+				
+				});
+	}
 });
 
 
